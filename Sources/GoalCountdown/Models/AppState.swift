@@ -30,6 +30,20 @@ struct Goal: Codable, Identifiable {
         return max(1, components.day ?? 730)
     }
 
+    var timeRemaining: (years: Int, months: Int, days: Int) {
+        let calendar = Calendar.current
+        let now = Date()
+        let components = calendar.dateComponents([.year, .month, .day], from: now, to: endDate)
+        return (max(0, components.year ?? 0), max(0, components.month ?? 0), max(0, components.day ?? 0))
+    }
+
+    var timeElapsed: (years: Int, months: Int, days: Int) {
+        let calendar = Calendar.current
+        let now = Date()
+        let components = calendar.dateComponents([.year, .month, .day], from: startDate, to: now)
+        return (max(0, components.year ?? 0), max(0, components.month ?? 0), max(0, components.day ?? 0))
+    }
+
     var progress: Double {
         Double(daysElapsed) / Double(totalDays)
     }
